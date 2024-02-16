@@ -35,7 +35,11 @@ fn main() -> Result<(), slint::PlatformError> {
         model
             .clone()
             .map(|n| StandardListViewItem::from(slint::format!("{}, {}", n.last, n.first)))
-            .filter(move |e| e.text.starts_with(prefix_for_wrapper.borrow().as_str())),
+            .filter(move |e| {
+                e.text
+                    .to_ascii_lowercase()
+                    .starts_with(prefix_for_wrapper.borrow().as_str())
+            }),
     );
 
     main_window.set_names_list(filtered_model.clone().into());
